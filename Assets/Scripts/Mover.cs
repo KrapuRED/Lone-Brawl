@@ -26,5 +26,10 @@ public class Mover : MonoBehaviour
         _rb.linearVelocity = new Vector3(_currentVelocity.x, _rb.linearVelocity.y, _currentVelocity.z);
     }
 
-    public Vector3 GetVelocity() => _rb.linearVelocity; 
+    public Vector3 GetVelocity() => _rb.linearVelocity;
+
+    public void Turn(Quaternion turnRotation)
+    {
+        _rb.MoveRotation(_rb.rotation * turnRotation);
+    } 
 }
