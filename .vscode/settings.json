@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Lone-Brawl.sln"
+    "dotnet.defaultSolution": "logic.sln"
 }
