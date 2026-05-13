@@ -17,7 +17,7 @@ public class Player : Entity
         _turretRotation = transform.Find("Turret").transform;
     }
 
-    public void Update()
+    private void Update()
     {
         // move input
         float movementInputValue = Input.GetAxisRaw("Vertical");
@@ -32,7 +32,7 @@ public class Player : Entity
 
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         // player move
         Vector3 newVelocity = _movementInput * movementSpeed * Time.fixedDeltaTime;

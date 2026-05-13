@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public Mover _mover;
+    protected Mover _mover;
 
-    public void Awake()
+    protected virtual void Awake()
     {
         _mover = GetComponent<Mover>();
     }
