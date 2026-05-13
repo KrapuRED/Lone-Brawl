@@ -27,8 +27,14 @@ public class EnemyStateMachine : Entity
         agent = GetComponent<NavMeshAgent>();
     }
 
+    private void Start()
+    {
+        agent.updateRotation = false;
+    }
+
     private void Update()
     {
+        
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
@@ -75,6 +81,12 @@ public class EnemyStateMachine : Entity
         
         if(!_onRecoil)
         {
+            // turn off auto rotation for manual rotation
+            if(agent.isActiveAndEnabled)
+            {
+                agent.updateRotation = false;
+            }
+
             // point to player to attack
             Vector3 directionToPlayer = (_player.position - transform.position).normalized;
             directionToPlayer.y = 0;
