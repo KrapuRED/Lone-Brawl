@@ -1,0 +1,72 @@
+// =======================================================
+// DEFAULT HEX MAP LAYOUT — Setup Instructions
+// =======================================================
+//
+// Buat HexMapData ScriptableObject di Unity:
+//   Assets → Create → HexMap → Map Data
+//   Simpan sebagai: HexMapData_Default.asset
+//
+// Lalu isi field "Cells" di Inspector dengan data berikut.
+// Copy paste satu-satu ke Inspector.
+//
+// OPEN NODES (InitialState = Open, EnemyCount = 0)
+// -------------------------------------------------------
+// (0,0)   (1,0)   (-1,0)
+// (0,1)   (0,-1)  (1,-1)
+// (-1,1)  (2,0)   (-2,0)
+// (1,1)   (-1,-1) (0,2)
+// (0,-2)  (2,-1)  (-2,1)
+//
+// CLOSED NODES — border (InitialState = Closed, EnemyCount = 1 atau 2)
+// -------------------------------------------------------
+// (3,0)   EnemyCount=1
+// (-3,0)  EnemyCount=1
+// (0,3)   EnemyCount=2
+// (0,-3)  EnemyCount=1
+// (2,1)   EnemyCount=1
+// (-2,-1) EnemyCount=1
+// (1,2)   EnemyCount=2
+// (-1,-2) EnemyCount=1
+// (2,-2)  EnemyCount=1
+// (-2,2)  EnemyCount=1
+// (3,-1)  EnemyCount=1
+// (-3,1)  EnemyCount=2
+// (1,-3)  EnemyCount=1
+// (-1,3)  EnemyCount=1
+//
+// CLOSED NODES — outer wall (InitialState = Closed, EnemyCount = 0)
+// (bisa tambah lebih banyak untuk memperluas map border)
+// -------------------------------------------------------
+// (4,0)   (4,-1)  (4,-2)
+// (-4,0)  (-4,1)  (-4,2)
+// (0,4)   (1,3)   (-1,4)
+// (0,-4)  (1,-4)  (-1,-3)
+// (3,1)   (3,-2)
+// (-3,-1) (-3,2)
+// (2,2)   (-2,-2)
+// (2,-3)  (-2,3)
+//
+// =======================================================
+// QUICK CODE ALTERNATIVE — hardcode di HexGrid jika tidak 
+// mau pakai ScriptableObject:
+// =======================================================
+//
+// Paste ini di HexGrid.GenerateMap() sebagai pengganti loop MapData:
+//
+// var openCoords = new int[,] {
+//     {0,0},{1,0},{-1,0},{0,1},{0,-1},{1,-1},{-1,1},
+//     {2,0},{-2,0},{1,1},{-1,-1},{0,2},{0,-2},{2,-1},{-2,1}
+// };
+// var closedBorder = new int[,] {
+//     {3,0},{-3,0},{0,3},{0,-3},{2,1},{-2,-1},
+//     {1,2},{-1,-2},{2,-2},{-2,2},{3,-1},{-3,1},{1,-3},{-1,3}
+// };
+// int[] borderEnemyCounts = {1,1,2,1,1,1,2,1,1,1,1,2,1,1};
+//
+// for (int i=0; i < openCoords.GetLength(0); i++)
+//     SpawnCell(new HexCellData { Q=openCoords[i,0], R=openCoords[i,1],
+//         InitialState=NodeState.Open, EnemyCount=0 });
+//
+// for (int i=0; i < closedBorder.GetLength(0); i++)
+//     SpawnCell(new HexCellData { Q=closedBorder[i,0], R=closedBorder[i,1],
+//         InitialState=NodeState.Closed, EnemyCount=borderEnemyCounts[i] });
