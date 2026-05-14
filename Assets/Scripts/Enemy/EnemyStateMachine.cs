@@ -24,6 +24,7 @@ public class EnemyStateMachine : Entity
         base.Awake();
 
         _player = GameObject.Find("Player").transform;
+
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -53,11 +54,12 @@ public class EnemyStateMachine : Entity
     private void ChasePlayer(float deltaTime)
     {
         // smooth rotation
-        Vector3 directionToPlayer = (_player.position - transform.position).normalized;
+        Vector3 directionToPlayer = (transform.position - _player.position).normalized;
         directionToPlayer.y = 0;
         Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, deltaTime);
 
+        Debug.Log(_player.position);
         agent.SetDestination(_player.position);
        // Debug.Log("Chasing Player!");
     }
@@ -65,8 +67,6 @@ public class EnemyStateMachine : Entity
     private void AttackPlayer(float deltaTime)
     {
         agent.SetDestination(transform.position);
-        
-        
 
         if(!_alreadyAttack)
         {
@@ -81,14 +81,8 @@ public class EnemyStateMachine : Entity
         
         if(!_onRecoil)
         {
-            // turn off auto rotation for manual rotation
-            if(agent.isActiveAndEnabled)
-            {
-                agent.updateRotation = false;
-            }
-
             // point to player to attack
-            Vector3 directionToPlayer = (_player.position - transform.position).normalized;
+            Vector3 directionToPlayer =(transform.position - _player.position).normalized;
             directionToPlayer.y = 0;
             Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, deltaTime * 5);

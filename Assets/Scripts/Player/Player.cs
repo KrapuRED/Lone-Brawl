@@ -14,7 +14,7 @@ public class Player : Entity
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        _turretRotation = transform.Find("Turret").transform;
+        _turretRotation = transform.Find("Head").transform;
     }
 
     private void Update()
@@ -35,7 +35,7 @@ public class Player : Entity
     private void FixedUpdate()
     {
         // player move
-        Vector3 newVelocity = _movementInput * movementSpeed * Time.fixedDeltaTime;
+        Vector3 newVelocity = _movementInput * -movementSpeed * Time.fixedDeltaTime;
         _mover.SetVelocity(newVelocity);
 
         // player rotate
