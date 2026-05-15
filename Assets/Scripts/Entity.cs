@@ -17,13 +17,14 @@ public class Entity : MonoBehaviour, IDamageable
         _mover = GetComponent<Mover>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _currentHP = _maxHP;
     }
 
     public void TakeDamage(float amount)
     {
+        Debug.Log(amount);
         _currentHP -= amount;
         OnHealthChanged?.Invoke(_currentHP, _maxHP);
 
@@ -37,11 +38,17 @@ public class Entity : MonoBehaviour, IDamageable
     public void SetMaxHP(float amount)
     {
         _maxHP = amount;
+        _currentHP = _maxHP;
     }
 
     protected virtual void die()
     {
         Destroy(gameObject);
+    }
+
+    public float GetCurrentHP()
+    {
+        return _currentHP;
     }
 
 }

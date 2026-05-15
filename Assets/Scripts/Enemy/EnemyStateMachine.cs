@@ -5,6 +5,10 @@ using UnityEngine.Rendering;
 
 public class EnemyStateMachine : Entity
 {
+    [SerializeField]
+    private Transform hole; 
+    public GameObject projectile;
+
     public NavMeshAgent agent;
     private Transform _player;
     public LayerMask whatIsGround, whatIsPlayer;
@@ -28,8 +32,10 @@ public class EnemyStateMachine : Entity
         agent = GetComponent<NavMeshAgent>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         agent.updateRotation = false;
     }
 
@@ -70,8 +76,8 @@ public class EnemyStateMachine : Entity
 
         if(!_alreadyAttack)
         {
-            // attack code
-            Debug.Log("Attack!!!!!");
+            Instantiate(projectile, hole.position, hole.rotation);
+            // Debug.Log("Attack!!!!!");
 
             _alreadyAttack = true;
             _onRecoil = true;

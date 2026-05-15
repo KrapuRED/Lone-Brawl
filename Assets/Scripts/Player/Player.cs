@@ -8,7 +8,7 @@ public class Player : Entity
     private Transform hole; 
     public GameObject projectile;
 
-    public float playerHP = 100f;
+    public float playerHP;
     public float movementSpeed = 85f;
     public float turnSpeed = 35f;
     private Vector3 _movementInput;
@@ -16,7 +16,8 @@ public class Player : Entity
     private float _mouseInputX;
     private Transform _turretRotation;
 
-    private void Start()
+
+    protected override void Start()
     {
         SetMaxHP(playerHP);
 
@@ -27,6 +28,8 @@ public class Player : Entity
 
     private void Update()
     {
+        float x = GetCurrentHP();
+        Debug.Log(x);
         // move input
         float movementInputValue = Input.GetAxisRaw("Vertical");
         _movementInput = transform.forward * movementInputValue;
