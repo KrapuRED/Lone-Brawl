@@ -198,9 +198,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
-  recoilTime: 0.5
+  recoilTime: 1
   timeBetweenAttacks: 2
-  sightRange: 350
+  sightRange: 250
   attackRange: 35
   playerInSightRange: 0
   playerInAttackRange: 0

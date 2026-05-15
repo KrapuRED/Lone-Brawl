@@ -13,7 +13,7 @@ public class Player : Entity
     public float turnSpeed = 35f;
     private Vector3 _movementInput;
     private float _turnInputValue;
-    private float _mouseInputX;
+    private float _targetTurretAngle;
     private Transform _turretRotation;
 
 
@@ -21,15 +21,17 @@ public class Player : Entity
     {
         SetMaxHP(playerHP);
 
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
 
         _turretRotation = transform.Find("Head").transform;
     }
 
     private void Update()
     {
-        float x = GetCurrentHP();
-        Debug.Log(x);
+        // float x = GetCurrentHP();
+        // Debug.Log(x);
+
+
         // move input
         float movementInputValue = Input.GetAxisRaw("Vertical");
         _movementInput = transform.forward * movementInputValue;
@@ -38,7 +40,14 @@ public class Player : Entity
         _turnInputValue = Input.GetAxisRaw("Horizontal");
 
         // mouse input
-        _mouseInputX = Input.GetAxisRaw("Mouse X");
+        Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector3 mousePosition = Input.mousePosition;
+
+        float deltaX = mousePosition.x - screenCenter.x;
+        float deltaY = mousePosition.y - screenCenter.y;
+
+        _targetTurretAngle = Mathf.Atan2(deltaX, deltaY) * Mathf.Rad2Deg;
+
         // on left click
         if(Input.GetMouseButtonDown(0))
         {
@@ -62,7 +71,7 @@ public class Player : Entity
         _mover.Turn(turnRotation);
 
         // turret rotate
-        _turretRotation.Rotate(Vector3.up * _mouseInputX * 200 * Time.fixedDeltaTime);
+        _turretRotation.localRotation = Quaternion.Euler(0f, _targetTurretAngle, 0f);
     }
 
 
