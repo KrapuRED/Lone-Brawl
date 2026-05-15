@@ -59,7 +59,7 @@ public class EnemyStateMachine : Entity
         Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, deltaTime);
 
-        Debug.Log(_player.position);
+        // Debug.Log(_player.position);
         agent.SetDestination(_player.position);
        // Debug.Log("Chasing Player!");
     }
