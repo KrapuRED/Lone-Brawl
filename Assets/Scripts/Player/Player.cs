@@ -62,7 +62,7 @@ public class Player : Entity
         _mover.Turn(turnRotation);
 
         // turret rotate
-        _turretRotation.Rotate(Vector3.up * _mouseInputX * 100 * Time.fixedDeltaTime);
+        _turretRotation.Rotate(Vector3.up * _mouseInputX * 200 * Time.fixedDeltaTime);
     }
 
 

@@ -8,6 +8,7 @@ public class EnemyStateMachine : Entity
     [SerializeField]
     private Transform hole; 
     public GameObject projectile;
+    public float enemyHP = 100f;
 
     public NavMeshAgent agent;
     private Transform _player;
@@ -34,8 +35,8 @@ public class EnemyStateMachine : Entity
 
     protected override void Start()
     {
-        base.Start();
-        
+        SetMaxHP(enemyHP);
+
         agent.updateRotation = false;
     }
 
@@ -115,5 +116,11 @@ public class EnemyStateMachine : Entity
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    protected override void die()
+    {
+        SetMaxHP(enemyHP);
+        EnemyPool.Instance.ReturnObject(this.gameObject);
     }
 }

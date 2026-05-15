@@ -211,6 +211,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hole: {fileID: 0}
   projectile: {fileID: 0}
-  playerHP: 100
-  movementSpeed: 300
-  turnSpeed: 35
+  playerHP: 1000
+  movementSpeed: 500
+  turnSpeed: 45

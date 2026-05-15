@@ -41,7 +41,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b7b4f15d2cf29d54e982ee57de2d966a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.7
+      value: -82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b4f15d2cf29d54e982ee57de2d966a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b4f15d2cf29d54e982ee57de2d966a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.7
+      value: 61.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b4f15d2cf29d54e982ee57de2d966a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hole: {fileID: 5453600472085564328}
   projectile: {fileID: 6107667947682041655, guid: ed14a73011055d49682d0d2ed5584da4, type: 3}
+  enemyHP: 100
   agent: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
@@ -199,8 +200,8 @@ MonoBehaviour:
     m_Bits: 128
   recoilTime: 0.5
   timeBetweenAttacks: 2
-  sightRange: 200
-  attackRange: 50
+  sightRange: 350
+  attackRange: 35
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!195 &2431449157733804748
