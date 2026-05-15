@@ -13,9 +13,10 @@ public class Player : Entity
     public float turnSpeed = 35f;
     private Vector3 _movementInput;
     private float _turnInputValue;
-    private float _targetTurretAngle;
+    private Quaternion _targetTurretRotation;
     private Transform _turretRotation;
 
+    private Camera _mainCam;
 
     protected override void Start()
     {
@@ -24,6 +25,7 @@ public class Player : Entity
         Cursor.lockState = CursorLockMode.Confined;
 
         _turretRotation = transform.Find("Head").transform;
+        _mainCam = Camera.main;
     }
 
     private void Update()
@@ -40,13 +42,20 @@ public class Player : Entity
         _turnInputValue = Input.GetAxisRaw("Horizontal");
 
         // mouse input
-        Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Vector3 mousePosition = Input.mousePosition;
+        Plane groundPlane = new Plane(Vector3.up, _turretRotation.position);
+        Ray ray = _mainCam.ScreenPointToRay(Input.mousePosition);
 
-        float deltaX = mousePosition.x - screenCenter.x;
-        float deltaY = mousePosition.y - screenCenter.y;
+        if(groundPlane.Raycast(ray, out float hitDistance))
+        {
+            Vector3 hitPoint = ray.GetPoint(hitDistance);
+            Vector3 aimDirection = _turretRotation.position - hitPoint;
+            aimDirection.y = 0f;
 
-        _targetTurretAngle = Mathf.Atan2(deltaX, deltaY) * Mathf.Rad2Deg;
+            if(aimDirection != Vector3.zero)
+            {
+                _targetTurretRotation = Quaternion.LookRotation(aimDirection);
+            }
+        }
 
         // on left click
         if(Input.GetMouseButtonDown(0))
@@ -71,7 +80,7 @@ public class Player : Entity
         _mover.Turn(turnRotation);
 
         // turret rotate
-        _turretRotation.localRotation = Quaternion.Euler(0f, _targetTurretAngle, 0f);
+        _turretRotation.rotation = _targetTurretRotation;
     }
 
 
