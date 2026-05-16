@@ -1,24 +1,50 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : Entity
 {
+    [SerializeField]
+    private Transform hole; 
+    public GameObject projectile;
+
+    public float playerHP;
     public float movementSpeed = 85f;
     public float turnSpeed = 35f;
     private Vector3 _movementInput;
     private float _turnInputValue;
-    private float _mouseInputX;
+    private Quaternion _targetTurretRotation;
     private Transform _turretRotation;
 
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
+    private Camera _mainCam;
+    public float fireRate = 1f;
+    public float nextFireTime = 0f;
+    private AudioSource audioSource;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        audioSource = GetComponent<AudioSource>();
+        SetMaxHP(playerHP);
+
+        Cursor.lockState = CursorLockMode.Confined;
         _turretRotation = transform.Find("Head").transform;
+
+    }
+
+    protected override void Start()
+    {
+        _mainCam = Camera.main;
     }
 
     private void Update()
     {
+        // float x = GetCurrentHP();
+        // Debug.Log(x);
+
+
         // move input
         float movementInputValue = Input.GetAxisRaw("Vertical");
         _movementInput = transform.forward * movementInputValue;
@@ -27,9 +53,30 @@ public class Player : Entity
         _turnInputValue = Input.GetAxisRaw("Horizontal");
 
         // mouse input
-        _mouseInputX = Input.GetAxisRaw("Mouse X");
-        
+        Plane groundPlane = new Plane(Vector3.up, _turretRotation.position);
+        Ray ray = _mainCam.ScreenPointToRay(Input.mousePosition);
 
+        if(groundPlane.Raycast(ray, out float hitDistance))
+        {
+            Vector3 hitPoint = ray.GetPoint(hitDistance);
+            Vector3 aimDirection = _turretRotation.position - hitPoint;
+            aimDirection.y = 0f;
+
+            if(aimDirection != Vector3.zero)
+            {
+                _targetTurretRotation = Quaternion.LookRotation(aimDirection);
+            }
+        }
+
+        
+        // on left mouse 
+        if(Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        {
+            nextFireTime = Time.time + 5f / fireRate;
+            // Debug.Log("Shoot!");
+            audioSource.Play();
+            Instantiate(projectile, hole.position, hole.rotation);
+        }
     }
 
     private void FixedUpdate()
@@ -44,9 +91,13 @@ public class Player : Entity
         _mover.Turn(turnRotation);
 
         // turret rotate
-        _turretRotation.Rotate(Vector3.up * _mouseInputX * 100 * Time.fixedDeltaTime);
+        _turretRotation.rotation = _targetTurretRotation;
     }
 
-
+    protected override void die()
+    {
+        gameObject.SetActive(false);
+        GameOverManager.Instance.ShowGameOver();
+    }
 
 }
