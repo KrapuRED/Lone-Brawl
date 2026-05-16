@@ -1,9 +1,10 @@
+using System;
 using System.Security;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
 
-public class EnemyStateMachine : Entity
+public class Enemy : Entity
 {
     [SerializeField]
     private Transform hole; 
@@ -23,6 +24,9 @@ public class EnemyStateMachine : Entity
     // property for multiple conditions
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+    // broadcast on die
+    public static event Action<int> OnEnemyDeath;
 
     protected override void Awake()
     {
@@ -121,6 +125,11 @@ public class EnemyStateMachine : Entity
     protected override void die()
     {
         SetMaxHP(enemyHP);
+        // turn off but keep this player for the future use
         EnemyPool.Instance.ReturnObject(this.gameObject);
+
+        // let it out load
+        OnEnemyDeath?.Invoke(100);
+
     }
 }

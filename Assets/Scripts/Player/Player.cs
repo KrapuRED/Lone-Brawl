@@ -18,13 +18,19 @@ public class Player : Entity
 
     private Camera _mainCam;
 
-    protected override void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         SetMaxHP(playerHP);
 
         Cursor.lockState = CursorLockMode.Confined;
-
         _turretRotation = transform.Find("Head").transform;
+
+    }
+
+    protected override void Start()
+    {
         _mainCam = Camera.main;
     }
 
@@ -63,9 +69,6 @@ public class Player : Entity
             // Debug.Log("Shoot!");
             Instantiate(projectile, hole.position, hole.rotation);
         }
-        
-
-
     }
 
     private void FixedUpdate()
@@ -83,6 +86,10 @@ public class Player : Entity
         _turretRotation.rotation = _targetTurretRotation;
     }
 
-
+    protected override void die()
+    {
+        gameObject.SetActive(false);
+        GameOverManager.Instance.ShowGameOver();
+    }
 
 }

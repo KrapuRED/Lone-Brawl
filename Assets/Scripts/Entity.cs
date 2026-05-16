@@ -26,6 +26,8 @@ public class Entity : MonoBehaviour, IDamageable
     {
         Debug.Log(amount);
         _currentHP -= amount;
+        
+        // let it out loud
         OnHealthChanged?.Invoke(_currentHP, _maxHP);
 
         if(_currentHP <= 0)
