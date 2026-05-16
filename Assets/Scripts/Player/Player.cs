@@ -17,6 +17,8 @@ public class Player : Entity
     private Transform _turretRotation;
 
     private Camera _mainCam;
+    public float fireRate = 1f;
+    public float nextFireTime = 0f;
 
     protected override void Awake()
     {
@@ -63,9 +65,11 @@ public class Player : Entity
             }
         }
 
+        
         // on left click
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
+            nextFireTime = Time.time + 5f / fireRate;
             // Debug.Log("Shoot!");
             Instantiate(projectile, hole.position, hole.rotation);
         }

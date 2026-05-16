@@ -76,6 +76,7 @@ MonoBehaviour:
   hitParticle: {fileID: 7804116572556408974, guid: 5afa338305f424397b38891ca8e0f177, type: 3}
   speed: 80
   damage: 100
+  hitAudioPrefab: {fileID: 3847985081280088846, guid: bcbac6680656094bbaf92b7d8ac176fe, type: 3}
 --- !u!1001 &7482713492382673233
 PrefabInstance:
   m_ObjectHideFlags: 0

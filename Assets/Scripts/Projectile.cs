@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float damage = 100f;
     private float _lockedYRotation;
+    public GameObject hitAudioPrefab;
+
 
     private Rigidbody _rb;
 
@@ -46,7 +48,7 @@ public class Projectile : MonoBehaviour
             Vector3 hitPoint = other.ClosestPoint(transform.position);
             Instantiate(hitParticle, hitPoint, Quaternion.identity);
         }
-
+        Instantiate(hitAudioPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

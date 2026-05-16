@@ -24,6 +24,7 @@ public class Enemy : Entity
     // property for multiple conditions
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+    private AudioSource audioSource;
 
     // broadcast on die
     public static event Action<int> OnEnemyDeath;
@@ -35,6 +36,7 @@ public class Enemy : Entity
         _player = GameObject.Find("Player").transform;
 
         agent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected override void Start()
@@ -81,6 +83,7 @@ public class Enemy : Entity
 
         if(!_alreadyAttack)
         {
+            audioSource.Play();
             Instantiate(projectile, hole.position, hole.rotation);
             // Debug.Log("Attack!!!!!");
 
