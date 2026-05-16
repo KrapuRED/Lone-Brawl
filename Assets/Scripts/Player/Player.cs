@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : Entity
 {
@@ -19,11 +20,13 @@ public class Player : Entity
     private Camera _mainCam;
     public float fireRate = 1f;
     public float nextFireTime = 0f;
+    private AudioSource audioSource;
 
     protected override void Awake()
     {
         base.Awake();
 
+        audioSource = GetComponent<AudioSource>();
         SetMaxHP(playerHP);
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -66,11 +69,12 @@ public class Player : Entity
         }
 
         
-        // on left click
+        // on left mouse 
         if(Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + 5f / fireRate;
             // Debug.Log("Shoot!");
+            audioSource.Play();
             Instantiate(projectile, hole.position, hole.rotation);
         }
     }
