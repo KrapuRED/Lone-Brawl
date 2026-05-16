@@ -28,7 +28,7 @@ public class HexCell : MonoBehaviour
     [HideInInspector] public GameObject EnemyPrefab;
 
     // Runtime
-    [HideInInspector] public List<EnemyStateMachine> Enemies = new List<EnemyStateMachine>();
+    [HideInInspector] public List<Enemy> Enemies = new List<Enemy>();
 
     private bool _animating = false;
     private bool _enemiesSpawned = false;
@@ -75,7 +75,7 @@ public class HexCell : MonoBehaviour
             GameObject go = Instantiate(EnemyPrefab, spawnPos, Quaternion.identity, transform);
             go.name = $"Enemy_{Q}_{R}_{i}";
 
-            EnemyStateMachine enemy = go.GetComponent<EnemyStateMachine>();
+            Enemy enemy = go.GetComponent<Enemy>();
             if (enemy == null)
             {
                 Debug.LogError($"[HexCell] EnemyPrefab tidak punya EnemyStateMachine!");
@@ -90,7 +90,7 @@ public class HexCell : MonoBehaviour
     }
 
     /// Dipanggil oleh EnemyStateMachine saat enemy mati.
-    public void OnEnemyDied(EnemyStateMachine enemy)
+    public void OnEnemyDied(Enemy enemy)
     {
         Enemies.Remove(enemy);
         Debug.Log($"[HexCell ({Q},{R})] Enemy died. Remaining: {Enemies.Count}");
